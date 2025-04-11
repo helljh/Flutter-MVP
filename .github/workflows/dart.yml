@@ -1,42 +1,116 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+# name: Flutter_Test
 
-name: Dart
+# on:
+#   workflow_run:
+#     workflows: ["Assign Project and Milestone"]
+#     types:
+#       - completed
 
+# jobs:
+#   build:
+#     name: Running Test and CI
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       # Step 1: 소스 코드 체크아웃
+#       - name: Checkout source code
+#         uses: actions/checkout@v4
+
+#       # Step 2: Flutter SDK 설치 (v3.27.1)
+#       - name: Install Flutter SDK
+#         uses: subosito/flutter-action@v2
+#         with:
+#           flutter-version: '3.27.1'
+#           channel: 'stable'
+
+#       # Step 3: Flutter 의존성 가져오기
+#       - name: Get Flutter Dependencies
+#         run: flutter pub get
+
+#       # Step 4: Flutter Clean
+#       - name: Clean Flutter Project
+#         run: flutter clean
+
+#       # Step 5: 코드 자동 생성 (Freezed, GoRouter 등)
+#       - name: Generate Source Code
+#         run: flutter packages pub run build_runner build --delete-conflicting-outputs
+
+#       # Step 6: Flutter 테스트 실행
+#       - name: Run Flutter Tests
+#         run: |
+#           flutter test --coverage || { echo "Tests failed"; exit 1; }
+
+#       # Step 7: Flutter 의존성 캐싱
+#       - name: Cache Flutter dependencies
+#         uses: actions/cache@v3
+#         with:
+#           path: ~/.pub-cache
+#           key: ${{ runner.os }}-flutter-${{ hashFiles('pubspec.yaml') }}
+ 
+#       # TODO: GitHub Secrets에 CODECOV_TOKEN 설정해야 함 (Settings > Secrets and variable > Actions)
+#       # Step 8: 코드 커버리지 업로드 (선택)
+#       # - name: Upload Coverage Report
+#       #   uses: codecov/codecov-action@v3
+#       #   with:
+#       #     files: coverage/lcov.info
+#       #     fail_ci_if_error: true
+#       #     token: ${{ secrets.CODECOV_TOKEN }}
+name: Flutter_Test
+
+# 이벤트 정의
 on:
-  push:
-    branches: [ "main" ]
+  # prod, dev, main 브랜치로 Pull Request 발생 시 동작
   pull_request:
-    branches: [ "main" ]
-
+    branches:
+      - prod
+      - dev
+      - main
+# Job 영역
 jobs:
   build:
+    name: Running Test and CI
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # Step 1: 소스 코드 체크아웃
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      
+      # Step 2: Flutter SDK 설치
+      - name: Install Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.1'
+          channel: 'stable'
 
-      # Note: This workflow uses the latest stable version of the Dart SDK.
-      # You can specify other versions if desired, see documentation here:
-      # https://github.com/dart-lang/setup-dart/blob/main/README.md
-      # - uses: dart-lang/setup-dart@v1
-      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+      # Step 3: GitHub Secrets를 사용하여 .env 파일 생성
+      - name: Create .env file
+        run: |
+      - name: Create .env file
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> dev.env
+          echo "DEEP_LINK_URL=${{ secrets.DEEP_LINK_URL }}" >> dev.env
 
-      - name: Install dependencies
-        run: dart pub get
+      # Step 4: Flutter 의존성 가져오기
+      - name: Get Flutter Dependencies
+        run: flutter pub get
 
-      # Uncomment this step to verify the use of 'dart format' on each commit.
-      # - name: Verify formatting
-      #   run: dart format --output=none --set-exit-if-changed .
+      # Step 5: Flutter Clean
+      - name: Clean Flutter Project
+        run: flutter clean
 
-      # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Analyze project source
-        run: dart analyze
+      # Step 6: 코드 자동 생성 (Freezed, GoRouter 등)
+      - name: Generate Source Code
+        run: flutter packages pub run build_runner build --delete-conflicting-outputs
 
-      # Your project will need to have tests in test/ and a dependency on
-      # package:test for this step to succeed. Note that Flutter projects will
-      # want to change this to 'flutter test'.
-      - name: Run tests
-        run: dart test
+      # Step 7: Flutter 테스트 실행
+      - name: Run Flutter Tests
+        run: |
+          flutter test --coverage || { echo "Tests failed"; exit 1; }
+          
+      # Step 8: Flutter 의존성 캐싱
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-flutter-${{ hashFiles('pubspec.yaml') }}
