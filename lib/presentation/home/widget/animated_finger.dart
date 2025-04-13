@@ -37,20 +37,14 @@ class _AnimatedFingerState extends State<AnimatedFinger>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const SizedBox(height: 24),
-        SlideTransition(
-          position: _animation,
-          child: Image.asset(
-            'assets/images/finger.png',
-            width: 100,
-            height: 100,
-            fit: BoxFit.contain,
-          ),
-        ),
-      ],
+    return SlideTransition(
+      position: _animation,
+      child: Image.asset(
+        'assets/images/finger.png',
+        width: 100,
+        height: 100,
+        fit: BoxFit.contain,
+      ),
     );
   }
 }
