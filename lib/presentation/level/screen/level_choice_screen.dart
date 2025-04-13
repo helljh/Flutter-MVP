@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_game/app/enum/game_level.dart';
 import 'package:mvp_game/app/ui/font_styles.dart';
 import 'package:mvp_game/app/widget/base_app_bar.dart';
 
@@ -6,16 +7,12 @@ import '../../../app/widget/base_select_box.dart';
 
 class LevelChoiceScreen extends StatelessWidget {
   final VoidCallback onTapBack;
-  final VoidCallback onTapThree;
-  final VoidCallback onTapFour;
-  final VoidCallback onTapFive;
+  final Function(GameLevel level) onTapLevel;
 
   const LevelChoiceScreen({
     super.key,
     required this.onTapBack,
-    required this.onTapThree,
-    required this.onTapFour,
-    required this.onTapFive,
+    required this.onTapLevel,
   });
 
   @override
@@ -46,11 +43,20 @@ class LevelChoiceScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                BaseSelectBox(title: "3 X 3", onTap: onTapThree),
+                BaseSelectBox(
+                  title: "3 X 3",
+                  onTap: () => onTapLevel(GameLevel.three),
+                ),
                 const SizedBox(height: 24),
-                BaseSelectBox(title: "4 X 4", onTap: onTapFour),
+                BaseSelectBox(
+                  title: "4 X 4",
+                  onTap: () => onTapLevel(GameLevel.four),
+                ),
                 const SizedBox(height: 24),
-                BaseSelectBox(title: "5 X 5", onTap: onTapFive),
+                BaseSelectBox(
+                  title: "5 X 5",
+                  onTap: () => onTapLevel(GameLevel.five),
+                ),
               ],
             ),
           ),
