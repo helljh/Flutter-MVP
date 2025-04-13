@@ -10,7 +10,7 @@ final router = GoRouter(
       path: RoutePath.home,
       builder: (context, state) {
         return HomeScreen(
-          onTapStartBtn: () => context.pushReplacement(RoutePath.levelChoice),
+          onTapStartBtn: () => context.push(RoutePath.levelChoice),
         );
       },
     ),
@@ -18,7 +18,7 @@ final router = GoRouter(
       path: RoutePath.levelChoice,
       builder: (context, state) {
         return LevelChoiceScreen(
-          onTapBack: () => context.pushReplacement(RoutePath.home),
+          onTapBack: context.pop,
           onTapThree: () {
             print('three tapped');
           },

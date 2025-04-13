@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
             const Center(
               child: Text(
                 '아래 버튼을 눌러\n 게임을 시작하세요',
-                style: FontStyles.largeTextRegular,
+                style: FontStyles.mediumTextRegular,
                 textAlign: TextAlign.center,
               ),
             ),
