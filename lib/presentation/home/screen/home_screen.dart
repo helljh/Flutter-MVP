@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:mvp_game/presentation/home/widget/animated_finger.dart';
 import 'package:mvp_game/presentation/home/widget/game_start_button.dart';
-import 'package:mvp_game/ui/font_styles.dart';
+import 'package:mvp_game/app/ui/font_styles.dart';
 
 class HomeScreen extends StatelessWidget {
   final VoidCallback onTapStartBtn;

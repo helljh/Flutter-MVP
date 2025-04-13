@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../ui/font_styles.dart';
+import '../../app/ui/font_styles.dart';
 
 class BaseSelectBox extends StatelessWidget {
   final String title;

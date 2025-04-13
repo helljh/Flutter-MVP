@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../ui/font_styles.dart';
-
 class AnimatedFinger extends StatefulWidget {
   const AnimatedFinger({super.key});
 
