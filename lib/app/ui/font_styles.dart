@@ -22,13 +22,13 @@ abstract class FontStyles {
   );
 
   static const TextStyle mediumTextBold = TextStyle(
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: FontWeight.bold,
     fontFamily: fontFamily,
   );
 
   static const TextStyle normalTextBold = TextStyle(
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: FontWeight.bold,
     fontFamily: fontFamily,
   );
@@ -64,13 +64,13 @@ abstract class FontStyles {
   );
 
   static const TextStyle mediumTextRegular = TextStyle(
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: FontWeight.normal,
     fontFamily: fontFamily,
   );
 
   static const TextStyle normalTextRegular = TextStyle(
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: FontWeight.normal,
     fontFamily: fontFamily,
   );
