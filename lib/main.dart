@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_game/presentation/home/screen/home_screen.dart';
 import 'package:mvp_game/ui/font_styles.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(),
+      home: const HomeScreen(),
     );
   }
 }
@@ -27,7 +28,7 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(child: Text('안녕하세요!', style: FontStyles.largeTextRegular)),
     );
   }
