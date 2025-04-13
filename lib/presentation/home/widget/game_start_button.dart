@@ -50,6 +50,7 @@ class _GameStartButtonState extends State<GameStartButton> {
       ),
       child: GestureDetector(
         onTap: handlePress,
+        behavior: HitTestBehavior.opaque,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           child: const Text('게임 시작', style: FontStyles.mediumTextRegular),

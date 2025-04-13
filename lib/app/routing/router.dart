@@ -19,6 +19,15 @@ final router = GoRouter(
       builder: (context, state) {
         return LevelChoiceScreen(
           onTapBack: () => context.pushReplacement(RoutePath.home),
+          onTapThree: () {
+            print('three tapped');
+          },
+          onTapFour: () {
+            print('four tapped');
+          },
+          onTapFive: () {
+            print('five tapped');
+          },
         );
       },
     ),
