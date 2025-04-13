@@ -5,9 +5,16 @@ import '../ui/font_styles.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
+  final bool? centerTitle;
   final Widget? leading;
   final List<Widget>? actions;
-  const BaseAppBar({super.key, this.title, this.leading, this.actions});
+  const BaseAppBar({
+    super.key,
+    this.title,
+    this.leading,
+    this.actions,
+    this.centerTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +27,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           style: FontStyles.headerTextRegular,
         ),
       ),
-      centerTitle: false,
+      centerTitle: centerTitle ?? false,
       leading: leading,
       actions: actions,
     );

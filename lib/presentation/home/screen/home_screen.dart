@@ -1,10 +1,13 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:mvp_game/presentation/home/widget/animated_finger.dart';
 import 'package:mvp_game/presentation/home/widget/game_start_button.dart';
 import 'package:mvp_game/ui/font_styles.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final VoidCallback onTapStartBtn;
+  const HomeScreen({super.key, required this.onTapStartBtn});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +64,7 @@ class HomeScreen extends StatelessWidget {
               child: const AnimatedFinger(),
             ),
             const SizedBox(height: 10),
-            const Center(child: GameStartButton()),
+            Center(child: GameStartButton(onTapStartBtn: onTapStartBtn)),
             const Spacer(),
           ],
         ),

@@ -1,8 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:mvp_game/ui/font_styles.dart';
 
 class GameStartButton extends StatefulWidget {
-  const GameStartButton({super.key});
+  final VoidCallback onTapStartBtn;
+  const GameStartButton({super.key, required this.onTapStartBtn});
 
   @override
   State<GameStartButton> createState() => _GameStartButtonState();
@@ -12,7 +14,7 @@ class _GameStartButtonState extends State<GameStartButton> {
   bool isPressed = false; // 눌렀는지 여부
   double elevation = 10.0;
 
-  void handlePress() {
+  void handlePress() async {
     if (!isPressed) {
       setState(() {
         isPressed = true;
@@ -26,6 +28,7 @@ class _GameStartButtonState extends State<GameStartButton> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
+      onEnd: widget.onTapStartBtn,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(5),
