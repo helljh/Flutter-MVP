@@ -1,8 +1,8 @@
 import 'package:go_router/go_router.dart';
-import 'package:mvp_game/app/enum/game_level.dart';
-import 'package:mvp_game/app/routing/route_path.dart';
-import 'package:mvp_game/presentation/game/screen/game_screen.dart';
-import 'package:mvp_game/presentation/home/screen/home_screen.dart';
+import 'package:mvp_game/core/enum/game_level.dart';
+import 'package:mvp_game/core/routing/route_path.dart';
+import 'package:mvp_game/presentation/game/presentation/screen/game_screen.dart';
+import 'package:mvp_game/presentation/home/presentation/screen/home_screen.dart';
 import 'package:mvp_game/presentation/level/screen/level_choice_screen.dart';
 
 final router = GoRouter(
@@ -32,7 +32,11 @@ final router = GoRouter(
       builder: (context, state) {
         final levelName = state.uri.queryParameters['level'];
         final level = GameLevel.values.byName(levelName ?? 'three');
-        return GameScreen(level: level);
+        return GameScreen(
+          level: level,
+          onTapRestart: () => context.go(RoutePath.game),
+          onTapHome: () => context.go(RoutePath.home),
+        );
       },
     ),
   ],
