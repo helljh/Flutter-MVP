@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import 'package:mvp_game/presentation/home/widget/animated_finger.dart';
-import 'package:mvp_game/presentation/home/widget/game_start_button.dart';
-import 'package:mvp_game/app/ui/font_styles.dart';
+import 'package:mvp_game/presentation/home/presentation/widget/animated_finger.dart';
+import 'package:mvp_game/presentation/home/presentation/widget/game_start_button.dart';
+import 'package:mvp_game/core/ui/font_styles.dart';
 
 class HomeScreen extends StatelessWidget {
   final VoidCallback onTapStartBtn;

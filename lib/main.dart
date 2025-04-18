@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mvp_game/app/routing/router.dart';
-import 'package:mvp_game/app/ui/font_styles.dart';
+import 'package:mvp_game/core/routing/router.dart';
+import 'package:mvp_game/core/ui/font_styles.dart';
 
 void main() {
   runApp(const MyApp());
