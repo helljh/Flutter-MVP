@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mvp_game/core/enum/game_level.dart';
 import 'package:mvp_game/core/routing/route_path.dart';
 import 'package:mvp_game/presentation/game/presentation/screen/game_screen.dart';
+import 'package:mvp_game/presentation/game/presentation/widget/count_down_screen.dart';
 import 'package:mvp_game/presentation/home/presentation/screen/home_screen.dart';
 import 'package:mvp_game/presentation/level/screen/level_choice_screen.dart';
 
@@ -22,7 +23,7 @@ final router = GoRouter(
         return LevelChoiceScreen(
           onTapBack: () => context.pop(),
           onTapLevel: (level) {
-            context.push('${RoutePath.game}?level=${level.name}');
+            context.go('${RoutePath.countDown}?level=${level.name}');
           },
         );
       },
@@ -34,8 +35,21 @@ final router = GoRouter(
         final level = GameLevel.values.byName(levelName ?? 'three');
         return GameScreen(
           level: level,
-          onTapRestart: () => context.go(RoutePath.game),
+          onTapRestart:
+              () => context.push('${RoutePath.countDown}?level=${level.name}'),
           onTapHome: () => context.go(RoutePath.home),
+        );
+      },
+    ),
+    GoRoute(
+      path: RoutePath.countDown,
+      builder: (context, state) {
+        final levelName = state.uri.queryParameters['level'];
+        final level = GameLevel.values.byName(levelName ?? 'three');
+        return CountDownScreen(
+          onFinished: () {
+            context.go('${RoutePath.game}?level=${level.name}');
+          },
         );
       },
     ),

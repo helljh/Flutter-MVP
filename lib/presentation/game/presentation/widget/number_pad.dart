@@ -1,14 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mvp_game/presentation/game/presentation/widget/game_fail_dialog.dart';
-import 'package:mvp_game/presentation/game/presentation/widget/game_success_dialog.dart';
 
 import '../../../../core/ui/font_styles.dart';
+import 'game_fail_screen.dart';
+import 'game_success_screen.dart';
 
 class NumberPad extends StatefulWidget {
+  final int size;
   final List<int> questionList;
-  final bool isAllCountDownFinished;
+  final bool isCountDownFinished;
   final int leftCount;
   final Function(int count) decreaseCount;
   final VoidCallback onTapHome;
@@ -17,11 +18,12 @@ class NumberPad extends StatefulWidget {
   const NumberPad({
     super.key,
     required this.questionList,
-    required this.isAllCountDownFinished,
+    required this.isCountDownFinished,
     required this.leftCount,
     required this.decreaseCount,
     required this.onTapHome,
     required this.onTapRestart,
+    required this.size,
   });
 
   @override
@@ -40,9 +42,9 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
     super.initState();
     _totalCount = widget.leftCount;
 
-    _cellFlipped = List.generate(9, (_) => false);
+    _cellFlipped = List.generate(widget.size * widget.size, (_) => false);
 
-    _controllers = List.generate(9, (index) {
+    _controllers = List.generate(widget.size * widget.size, (index) {
       return AnimationController(
         vsync: this,
         duration: const Duration(milliseconds: 500),
@@ -63,13 +65,13 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
   void didUpdateWidget(covariant NumberPad oldWidget) {
     super.didUpdateWidget(oldWidget);
     // 게임 시작 시 셀 뒤집기
-    if (!oldWidget.isAllCountDownFinished && widget.isAllCountDownFinished) {
+    if (!oldWidget.isCountDownFinished && widget.isCountDownFinished) {
       _flipAll();
     }
   }
 
   void _flipAll() {
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < widget.size * widget.size; i++) {
       _controllers[i].forward();
       _cellFlipped[i] = true;
     }
@@ -98,14 +100,14 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return GridView.count(
       shrinkWrap: true,
-      crossAxisCount: 3,
+      crossAxisCount: widget.size,
       padding: const EdgeInsets.all(16),
-      children: List.generate(9, (index) {
+      children: List.generate(widget.size * widget.size, (index) {
         int number = widget.questionList[index];
 
         return GestureDetector(
           onTap: () {
-            if (widget.isAllCountDownFinished) {
+            if (widget.isCountDownFinished) {
               if (number == _currentAnswer) {
                 _flipCell(index); // 정답이면 뒤집기 유지
                 _currentAnswer++;
@@ -116,7 +118,7 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
                     context: context,
 
                     builder: (context) {
-                      return GameSuccessDialog(onTapHome: widget.onTapHome);
+                      return GameSuccessScreen(onTapHome: widget.onTapHome);
                     },
                   );
                 }
@@ -134,7 +136,7 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
                     barrierColor: Colors.black,
                     context: context,
                     builder: (context) {
-                      return GameFailDialog(
+                      return GameFailScreen(
                         onTapRestart: widget.onTapRestart,
                         onTapHome: widget.onTapHome,
                       );
