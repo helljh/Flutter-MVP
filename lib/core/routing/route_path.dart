@@ -1,4 +1,5 @@
 abstract class RoutePath {
+  static const splash = '/splah';
   static const home = '/home';
   static const levelChoice = '/level';
   static const game = '/game';
