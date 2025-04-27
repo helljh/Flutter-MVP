@@ -1,12 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:mvp_game/core/enum/game_level.dart';
 import 'package:mvp_game/core/routing/route_path.dart';
+import 'package:mvp_game/feature/game/presentation/screen/game_screen.dart';
+import 'package:mvp_game/feature/game/presentation/widget/count_down_screen.dart';
 import 'package:mvp_game/feature/game/presentation/widget/game_success_screen.dart';
-import 'package:mvp_game/feature/presentation/screen/game_screen.dart';
-import 'package:mvp_game/feature/presentation/widget/count_down_screen.dart';
+import 'package:mvp_game/feature/level/presentation/screen/level_choice_screen.dart';
 import 'package:mvp_game/feature/presentation/widget/game_fail_screen.dart';
 import 'package:mvp_game/feature/home/presentation/screen/home_screen.dart';
-import 'package:mvp_game/feature/screen/level_choice_screen.dart';
 
 final router = GoRouter(
   initialLocation: RoutePath.home,
