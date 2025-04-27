@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import 'package:mvp_game/presentation/home/presentation/widget/animated_finger.dart';
-import 'package:mvp_game/presentation/home/presentation/widget/basic_button.dart';
+import 'package:mvp_game/feature/home/presentation/widget/animated_finger.dart';
+import 'package:mvp_game/core/widget/basic_button.dart';
 import 'package:mvp_game/core/ui/font_styles.dart';
 
 class HomeScreen extends StatelessWidget {

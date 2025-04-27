@@ -3,7 +3,7 @@ import 'package:mvp_game/core/enum/game_level.dart';
 import 'package:mvp_game/core/ui/font_styles.dart';
 import 'package:mvp_game/core/widget/base_app_bar.dart';
 
-import '../../../core/widget/base_select_box.dart';
+import '../../../../core/widget/base_select_box.dart';
 
 class LevelChoiceScreen extends StatelessWidget {
   final VoidCallback onTapBack;

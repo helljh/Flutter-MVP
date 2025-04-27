@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:mvp_game/presentation/home/presentation/widget/basic_button.dart';
-import '../../../../core/ui/font_styles.dart';
+import 'package:mvp_game/core/widget/basic_button.dart';
+import '../../../core/ui/font_styles.dart';
 
 class GameFailScreen extends StatelessWidget {
   final VoidCallback onTapHome;
