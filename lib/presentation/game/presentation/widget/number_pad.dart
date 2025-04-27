@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mvp_game/core/routing/route_path.dart';
 
 import '../../../../core/ui/font_styles.dart';
-import 'game_fail_screen.dart';
-import 'game_success_screen.dart';
 
 class NumberPad extends StatefulWidget {
   final int size;
@@ -96,6 +96,20 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  Widget _buildCell(int? number) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black45),
+        color: Colors.white,
+      ),
+      alignment: Alignment.center,
+      child:
+          (number != null && number != -1) // -1이 아닐 때만 숫자 표시
+              ? Text(number.toString(), style: FontStyles.mediumTextRegular)
+              : const SizedBox.shrink(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GridView.count(
@@ -106,42 +120,29 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
         int number = widget.questionList[index];
 
         return GestureDetector(
-          onTap: () {
+          onTap: () async {
             if (widget.isCountDownFinished) {
+              // number != -1 조건 제거
               if (number == _currentAnswer) {
                 _flipCell(index); // 정답이면 뒤집기 유지
                 _currentAnswer++;
                 if (_currentAnswer > 9) {
-                  showDialog(
-                    barrierDismissible: false,
-                    barrierColor: Colors.white,
-                    context: context,
-
-                    builder: (context) {
-                      return GameSuccessScreen(onTapHome: widget.onTapHome);
-                    },
-                  );
+                  context.go(RoutePath.gameSuccess);
                 }
               } else {
-                // 오답이면 잠깐 뒤집었다 다시 뒤집기
-                _flipCell(index);
-                Future.delayed(const Duration(milliseconds: 600), () {
+                // 오답이거나 빈칸이면 잠깐 뒤집었다 다시 뒤집기
+                if (number > _currentAnswer || number == -1) {
                   _flipCell(index);
-                });
-                _totalCount--;
-                widget.decreaseCount(_totalCount);
+                  await Future.delayed(const Duration(milliseconds: 600), () {
+                    _flipCell(index);
+                  });
+                  _totalCount--;
+                }
+                await widget.decreaseCount(_totalCount);
                 if (_totalCount == 0) {
-                  showDialog(
-                    barrierDismissible: false,
-                    barrierColor: Colors.black,
-                    context: context,
-                    builder: (context) {
-                      return GameFailScreen(
-                        onTapRestart: widget.onTapRestart,
-                        onTapHome: widget.onTapHome,
-                      );
-                    },
-                  );
+                  if (context.mounted) {
+                    context.go(RoutePath.gameFail, extra: widget.size);
+                  }
                 }
               }
             }
@@ -170,20 +171,6 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
           ),
         );
       }),
-    );
-  }
-
-  Widget _buildCell(int? number) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black45),
-        color: Colors.white,
-      ),
-      alignment: Alignment.center,
-      child:
-          number != null
-              ? Text(number.toString(), style: FontStyles.mediumTextRegular)
-              : const SizedBox.shrink(),
     );
   }
 }

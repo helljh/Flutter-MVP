@@ -3,6 +3,8 @@ import 'package:mvp_game/core/enum/game_level.dart';
 import 'package:mvp_game/core/routing/route_path.dart';
 import 'package:mvp_game/presentation/game/presentation/screen/game_screen.dart';
 import 'package:mvp_game/presentation/game/presentation/widget/count_down_screen.dart';
+import 'package:mvp_game/presentation/game/presentation/widget/game_fail_screen.dart';
+import 'package:mvp_game/presentation/game/presentation/widget/game_success_screen.dart';
 import 'package:mvp_game/presentation/home/presentation/screen/home_screen.dart';
 import 'package:mvp_game/presentation/level/screen/level_choice_screen.dart';
 
@@ -36,8 +38,9 @@ final router = GoRouter(
         return GameScreen(
           level: level,
           onTapRestart:
-              () => context.push('${RoutePath.countDown}?level=${level.name}'),
+              () => context.go('${RoutePath.countDown}?level=${level.name}'),
           onTapHome: () => context.go(RoutePath.home),
+          onTapBack: () => context.go(RoutePath.levelChoice),
         );
       },
     ),
@@ -50,6 +53,25 @@ final router = GoRouter(
           onFinished: () {
             context.go('${RoutePath.game}?level=${level.name}');
           },
+        );
+      },
+    ),
+    GoRoute(
+      path: RoutePath.gameSuccess,
+      builder: (context, state) {
+        return GameSuccessScreen(onTapHome: () => context.go(RoutePath.home));
+      },
+    ),
+    GoRoute(
+      path: RoutePath.gameFail,
+      builder: (context, state) {
+        final level = state.extra as int;
+        return GameFailScreen(
+          onTapHome: () => context.go(RoutePath.home),
+          onTapRestart:
+              () => context.go(
+                '${RoutePath.countDown}?level=${GameLevel.parse(level).name}',
+              ),
         );
       },
     ),

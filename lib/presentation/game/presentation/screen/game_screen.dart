@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import 'package:mvp_game/core/enum/game_level.dart';
@@ -12,11 +11,13 @@ class GameScreen extends StatefulWidget {
   final GameLevel level;
   final VoidCallback onTapRestart;
   final VoidCallback onTapHome;
+  final VoidCallback onTapBack;
   const GameScreen({
     super.key,
     required this.level,
     required this.onTapRestart,
     required this.onTapHome,
+    required this.onTapBack,
   });
 
   @override
@@ -26,13 +27,25 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   bool isCountDownFinished = false;
   late List<int> questionList;
-  int leftCount = 3;
+  int trialCount = 3;
 
   @override
   void initState() {
     super.initState();
-    // 게임에 사용할 숫자 리스트 생성 및 섞기
-    questionList = List.generate(16, (index) => index + 1)..shuffle();
+    // 1부터 9까지의 숫자만 생성하고 섞기
+    List<int> numbers = List.generate(9, (index) => index + 1)..shuffle();
+
+    // 전체 격자판 크기만큼의 리스트 생성 (비어있는 칸은 -1로 표시)
+    questionList = List.generate(widget.level.totalCount, (index) {
+      if (index < numbers.length) {
+        return numbers[index]; // 1-9 중 하나의 숫자 배치
+      } else {
+        return -1; // 빈 칸은 -1로 표시
+      }
+    });
+
+    // 숫자들의 위치를 다시 한번 섞기
+    questionList.shuffle();
   }
 
   @override
@@ -41,7 +54,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       appBar: BaseAppBar(
         title: '숫자',
         centerTitle: true,
-        leading: GestureDetector(child: const Icon(Icons.arrow_back_ios)),
+        leading: GestureDetector(
+          onTap: widget.onTapBack,
+          child: const Icon(Icons.arrow_back_ios),
+        ),
       ),
       body: SafeArea(
         child: Center(
@@ -62,26 +78,29 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                   ),
               const SizedBox(height: 12),
 
-              CountdownWidget(
-                key: const ValueKey('start'),
-                count: 5,
-                onFinished: (value) {
-                  if (value == 0) {
-                    setState(() {
-                      isCountDownFinished = true;
-                    }); // 5초 후 모든 셀 뒤집기
-                  }
-                },
+              Opacity(
+                opacity: isCountDownFinished ? 0 : 1,
+                child: CountdownWidget(
+                  key: const ValueKey('start'),
+                  count: 5,
+                  onFinished: (value) {
+                    if (value == 0) {
+                      setState(() {
+                        isCountDownFinished = true;
+                      }); // 5초 후 모든 셀 뒤집기
+                    }
+                  },
+                ),
               ),
               const SizedBox(height: 24),
               NumberPad(
-                size: 4,
+                size: widget.level.size,
                 questionList: questionList,
                 isCountDownFinished: isCountDownFinished,
-                leftCount: leftCount,
+                leftCount: trialCount,
                 decreaseCount: (count) {
                   setState(() {
-                    leftCount = count;
+                    trialCount = count;
                   });
                 },
                 onTapRestart: widget.onTapRestart,
@@ -97,7 +116,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     children: [
                       const TextSpan(text: '남은 횟수: '),
                       TextSpan(
-                        text: '$leftCount',
+                        text: '$trialCount',
                         style: FontStyles.mediumTextBold.copyWith(
                           color: Colors.black,
                         ),
