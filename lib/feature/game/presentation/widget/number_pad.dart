@@ -1,29 +1,21 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mvp_game/core/routing/route_path.dart';
+import 'package:mvp_game/feature/game/presentation/controller/game_state.dart';
 
 import '../../../../core/ui/font_styles.dart';
 
 class NumberPad extends StatefulWidget {
-  final int size;
-  final List<int> questionList;
-  final bool isCountDownFinished;
-  final int leftCount;
+  final GameState state;
   final Function(int count) decreaseCount;
-  final VoidCallback onTapHome;
-  final VoidCallback onTapRestart;
-
+  final VoidCallback gameSuccess;
+  final VoidCallback gameFail;
   const NumberPad({
     super.key,
-    required this.questionList,
-    required this.isCountDownFinished,
-    required this.leftCount,
     required this.decreaseCount,
-    required this.onTapHome,
-    required this.onTapRestart,
-    required this.size,
+    required this.state,
+    required this.gameSuccess,
+    required this.gameFail,
   });
 
   @override
@@ -35,16 +27,13 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
   late List<Animation<double>> _animations;
   late List<bool> _cellFlipped;
   int _currentAnswer = 1; // 현재 눌러야 할 숫자
-  late int _totalCount;
 
   @override
   void initState() {
     super.initState();
-    _totalCount = widget.leftCount;
+    _cellFlipped = List.generate(widget.state.level.totalCount, (_) => false);
 
-    _cellFlipped = List.generate(widget.size * widget.size, (_) => false);
-
-    _controllers = List.generate(widget.size * widget.size, (index) {
+    _controllers = List.generate(widget.state.level.totalCount, (index) {
       return AnimationController(
         vsync: this,
         duration: const Duration(milliseconds: 500),
@@ -65,13 +54,14 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
   void didUpdateWidget(covariant NumberPad oldWidget) {
     super.didUpdateWidget(oldWidget);
     // 게임 시작 시 셀 뒤집기
-    if (!oldWidget.isCountDownFinished && widget.isCountDownFinished) {
+    if (!oldWidget.state.isCountDownFinished &&
+        widget.state.isCountDownFinished) {
       _flipAll();
     }
   }
 
   void _flipAll() {
-    for (int i = 0; i < widget.size * widget.size; i++) {
+    for (int i = 0; i < widget.state.level.totalCount; i++) {
       _controllers[i].forward();
       _cellFlipped[i] = true;
     }
@@ -114,20 +104,20 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return GridView.count(
       shrinkWrap: true,
-      crossAxisCount: widget.size,
+      crossAxisCount: widget.state.level.size,
       padding: const EdgeInsets.all(16),
-      children: List.generate(widget.size * widget.size, (index) {
-        int number = widget.questionList[index];
+      children: List.generate(widget.state.level.totalCount, (index) {
+        int number = widget.state.questionList[index];
 
         return GestureDetector(
           onTap: () async {
-            if (widget.isCountDownFinished) {
+            if (widget.state.isCountDownFinished) {
               // number != -1 조건 제거
               if (number == _currentAnswer) {
                 _flipCell(index); // 정답이면 뒤집기 유지
                 _currentAnswer++;
                 if (_currentAnswer > 9) {
-                  context.go(RoutePath.gameSuccess);
+                  widget.gameSuccess();
                 }
               } else {
                 // 오답이거나 빈칸이면 잠깐 뒤집었다 다시 뒤집기
@@ -136,12 +126,11 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
                   await Future.delayed(const Duration(milliseconds: 600), () {
                     _flipCell(index);
                   });
-                  _totalCount--;
                 }
-                await widget.decreaseCount(_totalCount);
-                if (_totalCount == 0) {
+                await widget.decreaseCount(widget.state.trialCount);
+                if (widget.state.trialCount == 1) {
                   if (context.mounted) {
-                    context.go(RoutePath.gameFail, extra: widget.size);
+                    widget.gameFail();
                   }
                 }
               }

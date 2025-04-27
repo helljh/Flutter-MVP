@@ -3,7 +3,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:mvp_game/core/widget/basic_button.dart';
 
-import '../../../../core/ui/font_styles.dart';
+import '../../../core/ui/font_styles.dart';
 
 class GameSuccessScreen extends StatelessWidget {
   final VoidCallback onTapHome;
