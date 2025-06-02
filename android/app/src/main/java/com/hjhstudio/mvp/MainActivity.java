@@ -1,4 +1,4 @@
-package com.example.mvp_game;
+package com.hjhstudio.mvp;
 
 import io.flutter.embedding.android.FlutterActivity;
 
