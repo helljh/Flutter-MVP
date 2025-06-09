@@ -10,25 +10,28 @@ import 'package:mvp_game/feature/success/game_success_screen.dart';
 import 'package:mvp_game/feature/level/presentation/screen/level_choice_screen.dart';
 import 'package:mvp_game/feature/presentation/widget/game_fail_screen.dart';
 import 'package:mvp_game/feature/home/presentation/screen/home_screen.dart';
+import 'package:mvp_game/feature/type/presentation/screen/game_type_screen.dart';
 
 final router = GoRouter(
   initialLocation: RoutePath.splash,
   routes: [
     GoRoute(
+      // 스플래시
       path: RoutePath.splash,
       builder: (context, state) => const SplashScreen(),
     ),
     GoRoute(
+      // 홈
       path: RoutePath.home,
       builder: (context, state) {
         return HomeScreen(
-          onTapStartBtn: () => context.push(RoutePath.levelChoice),
+          onTapStartBtn: () => context.push(RoutePath.gameType),
         );
       },
       pageBuilder: (context, state) {
         return CustomTransitionPage(
           child: HomeScreen(
-            onTapStartBtn: () => context.push(RoutePath.levelChoice),
+            onTapStartBtn: () => context.push(RoutePath.gameType),
           ),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -41,17 +44,32 @@ final router = GoRouter(
       },
     ),
     GoRoute(
-      path: RoutePath.levelChoice,
+      // 게임종류
+      path: RoutePath.gameType,
       builder: (context, state) {
-        return LevelChoiceScreen(
-          onTapBack: () => context.go(RoutePath.home),
-          onTapLevel: (level) {
-            context.go('${RoutePath.countDown}?level=${level.name}');
+        return GameTypeScreen(
+          onTapBack: () => context.pop(),
+          onTapType: (type) {
+            context.go('${RoutePath.levelChoice}?type=${type.name}');
           },
         );
       },
     ),
     GoRoute(
+      // 레벨선택
+      path: RoutePath.levelChoice,
+      builder: (context, state) {
+        final type = state.uri.queryParameters['type'];
+        return LevelChoiceScreen(
+          onTapBack: () => context.pop(),
+          onTapLevel: (level) {
+            context.go('${RoutePath.countDown}?level=${level.name}&type=$type');
+          },
+        );
+      },
+    ),
+    GoRoute(
+      // 게임
       path: RoutePath.game,
       builder: (context, state) {
         final levelName = state.uri.queryParameters['level'];
@@ -60,6 +78,7 @@ final router = GoRouter(
       },
     ),
     GoRoute(
+      // 카운트다운
       path: RoutePath.countDown,
       builder: (context, state) {
         final levelName = state.uri.queryParameters['level'];
@@ -72,12 +91,14 @@ final router = GoRouter(
       },
     ),
     GoRoute(
+      // 게임성공
       path: RoutePath.gameSuccess,
       builder: (context, state) {
         return GameSuccessScreen(onTapHome: () => context.go(RoutePath.home));
       },
     ),
     GoRoute(
+      // 게임실패
       path: RoutePath.gameFail,
       builder: (context, state) {
         final level = state.extra as int;

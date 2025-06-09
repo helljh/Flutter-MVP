@@ -3,7 +3,7 @@ import 'package:mvp_game/core/enum/game_level.dart';
 import 'package:mvp_game/feature/game/presentation/controller/game_state.dart';
 
 class GameViewModel with ChangeNotifier {
-  GameState _state = GameState();
+  GameState _state = const GameState();
 
   GameState get state => _state;
 
