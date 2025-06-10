@@ -5,11 +5,11 @@ import 'package:mvp_game/core/widget/base_app_bar.dart';
 
 import '../../../../core/widget/base_select_box.dart';
 
-class LevelChoiceScreen extends StatelessWidget {
+class GameLevelScreen extends StatelessWidget {
   final VoidCallback onTapBack;
   final Function(GameLevel level) onTapLevel;
 
-  const LevelChoiceScreen({
+  const GameLevelScreen({
     super.key,
     required this.onTapBack,
     required this.onTapLevel,

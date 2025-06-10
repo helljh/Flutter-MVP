@@ -17,7 +17,6 @@ class GameScreen extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 24),
-
           !state.isCountDownFinished
               ? const Text(
                 '5초 후에\n 숫자패드가 뒤집힙니다',
@@ -30,7 +29,6 @@ class GameScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
           const SizedBox(height: 12),
-
           Opacity(
             opacity: state.isCountDownFinished ? 0 : 1,
             child: CountdownWidget(

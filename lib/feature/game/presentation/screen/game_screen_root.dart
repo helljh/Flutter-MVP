@@ -60,7 +60,7 @@ class _GameScreenRootState extends State<GameScreenRoot> {
                   case GameSuccess():
                     context.go(RoutePath.gameSuccess);
                   case GameFail():
-                    context.go(RoutePath.gameFail, extra: gameState.level.size);
+                    context.go(RoutePath.gameFail);
                 }
               },
             ),
