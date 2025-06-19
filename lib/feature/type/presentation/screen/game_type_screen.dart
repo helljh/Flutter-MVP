@@ -51,6 +51,11 @@ class GameTypeScreen extends StatelessWidget {
                   title: "색상",
                   onTap: () => onTapType(GameType.color),
                 ),
+                const SizedBox(height: 48),
+                BaseSelectBox(
+                  title: "방향",
+                  onTap: () => onTapType(GameType.direction),
+                ),
               ],
             ),
           ),

@@ -1,1 +1,1 @@
-enum GameType { number, color }
+enum GameType { number, color, direction }
