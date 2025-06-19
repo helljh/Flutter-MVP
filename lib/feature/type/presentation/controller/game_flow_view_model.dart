@@ -3,14 +3,14 @@ import 'package:mvp_game/core/enum/game_level.dart';
 import 'package:mvp_game/core/enum/game_type.dart';
 
 class GameFlowViewModel extends ChangeNotifier {
-  GameType? _selectedGameType;
+  GameType? _selectedType;
   GameLevel? _selectedLevel;
 
-  GameType? get selectedGameType => _selectedGameType;
+  GameType? get selectedType => _selectedType;
   GameLevel? get selectedLevel => _selectedLevel;
 
-  void selectGameType(GameType type) {
-    _selectedGameType = type;
+  void selectType(GameType type) {
+    _selectedType = type;
     notifyListeners();
   }
 

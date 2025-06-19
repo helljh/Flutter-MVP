@@ -11,7 +11,7 @@ class GameLevelScreenRoot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GameLevelScreen(
-      onTapBack: () => context.pop(),
+      onTapBack: () => context.go(RoutePath.gameType),
       onTapLevel: (level) {
         context.read<GameFlowViewModel>().selectLevel(level);
         context.go(RoutePath.countDown);

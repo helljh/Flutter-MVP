@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mvp_game/core/enum/game_level.dart';
 import 'package:mvp_game/core/routing/route_path.dart';
 import 'package:mvp_game/feature/game/presentation/controller/game_view_model.dart';
 import 'package:mvp_game/feature/game/presentation/screen/game_screen_root.dart';
@@ -10,9 +9,7 @@ import 'package:mvp_game/feature/splash/splash_screen.dart';
 import 'package:mvp_game/feature/success/game_success_screen.dart';
 import 'package:mvp_game/feature/presentation/widget/game_fail_screen.dart';
 import 'package:mvp_game/feature/home/presentation/screen/home_screen.dart';
-import 'package:mvp_game/feature/type/presentation/controller/game_flow_view_model.dart';
 import 'package:mvp_game/feature/type/presentation/screen/game_type_screen_root.dart';
-import 'package:provider/provider.dart';
 
 final router = GoRouter(
   initialLocation: RoutePath.splash,
@@ -26,14 +23,12 @@ final router = GoRouter(
       // 홈
       path: RoutePath.home,
       builder: (context, state) {
-        return HomeScreen(
-          onTapStartBtn: () => context.push(RoutePath.gameType),
-        );
+        return HomeScreen(onTapStartBtn: () => context.go(RoutePath.gameType));
       },
       pageBuilder: (context, state) {
         return CustomTransitionPage(
           child: HomeScreen(
-            onTapStartBtn: () => context.push(RoutePath.gameType),
+            onTapStartBtn: () => context.go(RoutePath.gameType),
           ),
           transitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -74,8 +69,7 @@ final router = GoRouter(
       // 게임
       path: RoutePath.game,
       builder: (context, state) {
-        final level = context.read<GameFlowViewModel>().selectedLevel;
-        return GameScreenRoot(viewModel: GameViewModel(), level: level!);
+        return GameScreenRoot(viewModel: GameViewModel());
       },
     ),
     GoRoute(

@@ -12,10 +12,10 @@ class GameTypeScreenRoot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GameTypeScreen(
-      onTapBack: () => context.pop(),
+      onTapBack: () => context.go(RoutePath.home),
       onTapType: (GameType type) {
-        context.read<GameFlowViewModel>().selectGameType(type);
-        context.push(RoutePath.levelChoice);
+        context.read<GameFlowViewModel>().selectType(type);
+        context.go(RoutePath.levelChoice);
       },
     );
   }
