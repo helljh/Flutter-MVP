@@ -1,21 +1,17 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:mvp_game/feature/game/presentation/controller/game_state.dart';
+import 'package:mvp_game/core/widget/game_pad.dart';
 
 import '../../../../core/ui/font_styles.dart';
 
-class NumberPad extends StatefulWidget {
-  final GameState state;
-  final Function(int count) decreaseCount;
-  final VoidCallback gameSuccess;
-  final VoidCallback gameFail;
+class NumberPad extends GamePad {
   const NumberPad({
     super.key,
-    required this.decreaseCount,
-    required this.state,
-    required this.gameSuccess,
-    required this.gameFail,
+    required super.state,
+    required super.decreaseCount,
+    required super.gameSuccess,
+    required super.gameFail,
   });
 
   @override
@@ -48,6 +44,12 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
               ),
             )
             .toList();
+
+    // if (widget.state.isCountDownFinished) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     _flipAll();
+    //   });
+    // }
   }
 
   @override
