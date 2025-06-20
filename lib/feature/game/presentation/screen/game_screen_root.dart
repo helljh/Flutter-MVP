@@ -21,15 +21,17 @@ class _GameScreenRootState extends State<GameScreenRoot> {
   void initState() {
     super.initState();
     final level = context.read<GameFlowViewModel>().selectedLevel!;
+    final gameType = context.read<GameFlowViewModel>().selectedType!;
 
-    widget.viewModel.setGameData(level);
+    widget.viewModel.setGameData(level, gameType);
   }
 
   @override
   Widget build(BuildContext context) {
+    final gameType = context.read<GameFlowViewModel>().selectedType!;
     return Scaffold(
       appBar: BaseAppBar(
-        title: '숫자',
+        title: gameType.label,
         centerTitle: true,
         leading: GestureDetector(
           onTap: () => context.go(RoutePath.levelChoice),

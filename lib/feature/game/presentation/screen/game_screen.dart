@@ -5,6 +5,7 @@ import 'package:mvp_game/core/widget/count_down_widget.dart';
 import 'package:mvp_game/feature/game/presentation/controller/game_action.dart';
 import 'package:mvp_game/feature/game/presentation/controller/game_state.dart';
 import 'package:mvp_game/feature/game/presentation/widget/color_pad.dart';
+import 'package:mvp_game/feature/game/presentation/widget/direction_pad.dart';
 import 'package:mvp_game/feature/type/presentation/controller/game_flow_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -17,8 +18,7 @@ class GameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isNumberType =
-        context.read<GameFlowViewModel>().selectedType == GameType.number;
+    final gameType = context.read<GameFlowViewModel>().selectedType;
 
     return Center(
       child: Column(
@@ -26,68 +26,23 @@ class GameScreen extends StatelessWidget {
           const SizedBox(height: 24),
           !state.isCountDownFinished
               ? Text(
-                isNumberType ? '5초 후에\n 숫자패드가 뒤집힙니다' : '5초 후에\n 색상패드가 뒤집힙니다',
+                _getInitialText(gameType!),
                 style: FontStyles.largeTextRegular,
                 textAlign: TextAlign.center,
               )
-              : isNumberType
-              ? const Text(
-                '1부터 9까지\n 순서대로 눌러주세요',
-                style: FontStyles.largeTextRegular,
-                textAlign: TextAlign.center,
-              )
-              : const Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ColorBox(color: Colors.red), // 빨강
-                      ColorBox(color: Colors.orange), // 주황
-                      ColorBox(color: Colors.yellow), // 노랑
-                      ColorBox(color: Colors.green), // 초록
-                      ColorBox(color: Colors.blue), // 하늘
-                      ColorBox(color: Colors.indigo), // 파랑
-                      ColorBox(color: Colors.purple), // 보라
-                      ColorBox(color: Colors.brown), // 갈색
-                      ColorBox(color: Colors.black), // 검정
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    '순서대로 눌러주세요',
-                    style: FontStyles.largeTextRegular,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
+              : _GameInstructionWidget(type: gameType!),
           const SizedBox(height: 12),
           Opacity(
             opacity: state.isCountDownFinished ? 0 : 1,
             child: CountdownWidget(
               key: const ValueKey('start'),
-              count: isNumberType ? 5 : 7,
+              count: _getCountdownDuration(gameType),
               onFinished:
                   (value) => onAction(GameAction.onCountDownFinished(value)),
             ),
           ),
           const SizedBox(height: 24),
-          isNumberType
-              ? NumberPad(
-                key: const ValueKey('number_pad'),
-                state: state, // 새로 생성하지 않고 전달받은 state 사용
-                decreaseCount:
-                    (int value) => onAction(GameAction.decreaseCount(value)),
-                gameSuccess: () => onAction(const GameAction.gameSuccess()),
-                gameFail: () => onAction(const GameAction.gameFail()),
-              )
-              : ColorPad(
-                key: const ValueKey('color_pad'),
-                state: state, // 새로 생성하지 않고 전달받은 state 사용
-                decreaseCount:
-                    (int value) => onAction(GameAction.decreaseCount(value)),
-                gameSuccess: () => onAction(const GameAction.gameSuccess()),
-                gameFail: () => onAction(const GameAction.gameFail()),
-              ),
+          _GamePadWidget(type: gameType, state: state, onAction: onAction),
           const SizedBox(height: 24),
           if (state.isCountDownFinished)
             RichText(
@@ -110,6 +65,18 @@ class GameScreen extends StatelessWidget {
       ),
     );
   }
+
+  String _getInitialText(GameType type) => switch (type) {
+    GameType.number => '5초 후에\n 숫자패드가 뒤집힙니다',
+    GameType.color => '7초 후에\n 색상패드가 뒤집힙니다',
+    GameType.direction => '10초 후에\n 방향패드가 뒤집힙니다',
+  };
+
+  int _getCountdownDuration(GameType type) => switch (type) {
+    GameType.number => 5,
+    GameType.color => 7,
+    GameType.direction => 10,
+  };
 }
 
 class ColorBox extends StatelessWidget {
@@ -128,5 +95,93 @@ class ColorBox extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade300),
       ),
     );
+  }
+}
+
+class _GameInstructionWidget extends StatelessWidget {
+  final GameType type;
+  const _GameInstructionWidget({required this.type});
+
+  @override
+  Widget build(BuildContext context) {
+    switch (type) {
+      case GameType.number:
+        return const Text(
+          '1부터 9까지\n 순서대로 눌러주세요',
+          style: FontStyles.largeTextRegular,
+          textAlign: TextAlign.center,
+        );
+      case GameType.color:
+        return const Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ColorBox(color: Colors.red),
+                ColorBox(color: Colors.orange),
+                ColorBox(color: Colors.yellow),
+                ColorBox(color: Colors.green),
+                ColorBox(color: Colors.blue),
+                ColorBox(color: Colors.indigo),
+                ColorBox(color: Colors.purple),
+                ColorBox(color: Colors.brown),
+                ColorBox(color: Colors.black),
+              ],
+            ),
+            SizedBox(height: 8),
+            Text(
+              '순서대로 눌러주세요',
+              style: FontStyles.largeTextRegular,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        );
+      case GameType.direction:
+        return const Text(
+          '시계방향\n순서대로 눌러주세요',
+          style: FontStyles.largeTextRegular,
+          textAlign: TextAlign.center,
+        );
+    }
+  }
+}
+
+class _GamePadWidget extends StatelessWidget {
+  final GameType type;
+  final GameState state;
+  final void Function(GameAction action) onAction;
+
+  const _GamePadWidget({
+    required this.type,
+    required this.state,
+    required this.onAction,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (type) {
+      GameType.number => NumberPad(
+        key: const ValueKey('number_pad'),
+        state: state,
+        decreaseCount: (value) => onAction(GameAction.decreaseCount(value)),
+        gameSuccess: () => onAction(const GameAction.gameSuccess()),
+        gameFail: () => onAction(const GameAction.gameFail()),
+      ),
+      GameType.color => ColorPad(
+        key: const ValueKey('color_pad'),
+        state: state,
+        decreaseCount: (value) => onAction(GameAction.decreaseCount(value)),
+        gameSuccess: () => onAction(const GameAction.gameSuccess()),
+        gameFail: () => onAction(const GameAction.gameFail()),
+      ),
+      GameType.direction => DirectionPad(
+        // 예시
+        key: const ValueKey('direction_pad'),
+        state: state,
+        decreaseCount: (value) => onAction(GameAction.decreaseCount(value)),
+        gameSuccess: () => onAction(const GameAction.gameSuccess()),
+        gameFail: () => onAction(const GameAction.gameFail()),
+      ),
+    };
   }
 }
