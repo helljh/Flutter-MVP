@@ -1,9 +1,87 @@
+# ---------------------------
+# Dart & Flutter
+# ---------------------------
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+flutter_export_environment.sh
+**/doc/api/
+**/ios/Flutter/.last_build_id
+
+# Generated files
+*.g.dart
+*.freezed.dart
+
+# Symbolication / Obfuscation
+app.*.symbols
+app.*.map.json
+
+# ---------------------------
+# Android
+# ---------------------------
+android/.gradle/
+android/captures/
+android/app/debug/
+android/app/profile/
+android/app/release/
+android/local.properties
+*.apk
+*.aar
+
+# ---------------------------
+# iOS
+# ---------------------------
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/.symlinks/
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/build/
+ios/.generated/
+**/*.xcworkspace
+**/*.xcodeproj/project.xcworkspace/
+**/*.xscheme
+
+# CocoaPods
+Podfile.lock
+.pub-cache/
+.flutter-plugins
+flutter_export_environment.sh
+
+# Xcode
+xcuserdata/
+DerivedData/
+*.xcuserstate
+*.xcscmblueprint
+
+# ---------------------------
+# IDEs
+# ---------------------------
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VSCode (uncomment if you want to ignore workspace settings)
+# .vscode/
+
+# ---------------------------
+# macOS
+# ---------------------------
+.DS_Store
+
+# ---------------------------
 # Miscellaneous
+# ---------------------------
 *.class
 *.log
 *.pyc
 *.swp
-.DS_Store
 .atom/
 .build/
 .buildlog/
@@ -11,40 +89,3 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.pub-cache/
-.pub/
-/build/
-
-# Symbolication related
-app.*.symbols
-
-# Obfuscation related
-app.*.map.json
-
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
-
-*.freezed.dart
-*.g.dart
-
-*.xscheme
