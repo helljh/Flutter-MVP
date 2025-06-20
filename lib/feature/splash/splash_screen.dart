@@ -14,7 +14,6 @@ class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
-  bool showVertical = false;
 
   @override
   void initState() {
@@ -34,15 +33,9 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> startAnimation() async {
-    await Future.delayed(const Duration(seconds: 2)); // MVP 보여주는 시간
-    setState(() {
-      showVertical = true;
-    });
-
-    await Future.delayed(const Duration(milliseconds: 300)); // 약간의 텀 후
     _controller.forward(); // 글자들 동시에 스르륵 등장
 
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 3));
     if (mounted) context.go(RoutePath.home);
   }
 
@@ -59,24 +52,17 @@ class _SplashScreenState extends State<SplashScreen>
       body: Center(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
-          child:
-              showVertical
-                  ? Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildLine('M', "emory Training"),
-                      const SizedBox(height: 16),
-                      _buildLine('V', "isual Grid"),
-                      const SizedBox(height: 16),
-                      _buildLine('P', "attern Game"),
-                    ],
-                  )
-                  : const Text(
-                    "MVP",
-                    key: ValueKey("mvp"),
-                    style: FontStyles.titleTextBold,
-                  ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildLine('M', "emory Training"),
+              const SizedBox(height: 16),
+              _buildLine('V', "isual Grid"),
+              const SizedBox(height: 16),
+              _buildLine('P', "attern Game"),
+            ],
+          ),
         ),
       ),
     );
