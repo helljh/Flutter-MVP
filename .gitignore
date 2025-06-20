@@ -46,6 +46,7 @@ ios/.generated/
 **/*.xcworkspace
 **/*.xcodeproj/project.xcworkspace/
 **/*.xscheme
+**/*.xcconfig
 
 # CocoaPods
 Podfile.lock
@@ -89,3 +90,5 @@ DerivedData/
 .svn/
 .swiftpm/
 migrate_working_dir/
+.env
+.xcconfig
