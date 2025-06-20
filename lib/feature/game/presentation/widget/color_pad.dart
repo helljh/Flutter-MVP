@@ -43,18 +43,18 @@ class _ColorPadState extends State<ColorPad> with TickerProviderStateMixin {
             )
             .toList();
 
-    // 색상 인덱스 1~7에 해당하는 셀의 위치를 answerList로 저장
+    // 색상 인덱스 1~9에 해당하는 셀의 위치를 answerList로 저장
     _answerList = [];
     for (int targetColor = 1; targetColor <= 9; targetColor++) {
       final index = widget.state.questionList.indexOf(targetColor);
       if (index != -1) _answerList.add(index);
     }
 
-    // if (widget.state.isCountDownFinished) {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     _flipAll();
-    //   });
-    // }
+    if (widget.state.isCountDownFinished) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _flipAll();
+      });
+    }
   }
 
   @override
@@ -65,16 +65,6 @@ class _ColorPadState extends State<ColorPad> with TickerProviderStateMixin {
       _flipAll();
     }
   }
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     if (widget.state.isCountDownFinished) {
-  //       _flipAll();
-  //     }
-  //   });
-  // }
 
   void _flipAll() {
     for (int i = 0; i < widget.state.level.totalCount; i++) {
@@ -132,11 +122,12 @@ class _ColorPadState extends State<ColorPad> with TickerProviderStateMixin {
                 _flipCell(index);
                 _currentIndex++;
                 if (_currentIndex >= _answerList.length) {
+                  await Future.delayed(const Duration(milliseconds: 500));
                   widget.gameSuccess();
                 }
               } else {
                 _flipCell(index);
-                await Future.delayed(const Duration(milliseconds: 600), () {
+                await Future.delayed(const Duration(milliseconds: 500), () {
                   _flipCell(index);
                 });
                 await widget.decreaseCount(widget.state.trialCount);

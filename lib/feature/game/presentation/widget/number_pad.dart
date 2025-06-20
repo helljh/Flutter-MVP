@@ -45,11 +45,11 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
             )
             .toList();
 
-    // if (widget.state.isCountDownFinished) {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     _flipAll();
-    //   });
-    // }
+    if (widget.state.isCountDownFinished) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _flipAll();
+      });
+    }
   }
 
   @override
@@ -119,13 +119,14 @@ class _NumberPadState extends State<NumberPad> with TickerProviderStateMixin {
                 _flipCell(index); // 정답이면 뒤집기 유지
                 _currentAnswer++;
                 if (_currentAnswer > 9) {
+                  await Future.delayed(const Duration(milliseconds: 500));
                   widget.gameSuccess();
                 }
               } else {
                 // 오답이거나 빈칸이면 잠깐 뒤집었다 다시 뒤집기
                 if (number > _currentAnswer || number == -1) {
                   _flipCell(index);
-                  await Future.delayed(const Duration(milliseconds: 600), () {
+                  await Future.delayed(const Duration(milliseconds: 500), () {
                     _flipCell(index);
                   });
                 }
