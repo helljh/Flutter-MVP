@@ -17,57 +17,55 @@ class HomeScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 24),
-              RichText(
-                text: TextSpan(
-                  style: FontStyles.largeTextRegular.copyWith(
-                    height: 2,
-                    color: Colors.black,
-                  ),
-                  children: [
-                    const TextSpan(text: '오늘의 '),
-                    TextSpan(
-                      text: 'MVP',
-                      style: FontStyles.largeTextBold.copyWith(
+              Column(
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      style: FontStyles.largeTextRegular.copyWith(
                         height: 2,
-                        decoration: TextDecoration.underline,
+                        color: Colors.black,
                       ),
+                      children: [
+                        const TextSpan(text: '오늘의 '),
+                        TextSpan(
+                          text: 'MVP',
+                          style: FontStyles.largeTextBold.copyWith(
+                            height: 2,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                        const TextSpan(text: '가'),
+                      ],
                     ),
-                    const TextSpan(text: '가'),
-                  ],
-                ),
-              ),
-              Text(
-                '되시겠습니까?',
-                style: FontStyles.largeTextRegular.copyWith(height: 2),
-              ),
-              const Spacer(),
-              const Center(
-                child: Text(
-                  '아래 버튼을 눌러\n 게임을 시작하세요',
-                  style: FontStyles.mediumTextRegular,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const Spacer(),
-              Container(
-                alignment: Alignment.center,
-                child: const AnimatedFinger(),
-              ),
-              const SizedBox(height: 10),
-              Center(
-                child: BasicButton(
-                  title: const Text(
-                    '게임 시작',
-                    style: FontStyles.mediumTextRegular,
                   ),
-                  shape: BoxShape.rectangle,
-                  onTapStartBtn: onTapStartBtn,
-                ),
+                  Text(
+                    '되시겠습니까?',
+                    style: FontStyles.largeTextRegular.copyWith(height: 2),
+                  ),
+                ],
               ),
-              const Spacer(),
+              Column(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    child: const AnimatedFinger(),
+                  ),
+                  const SizedBox(height: 10),
+                  Center(
+                    child: BasicButton(
+                      title: const Text(
+                        '게임 시작',
+                        style: FontStyles.mediumTextRegular,
+                      ),
+                      shape: BoxShape.rectangle,
+                      onTapStartBtn: onTapStartBtn,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
