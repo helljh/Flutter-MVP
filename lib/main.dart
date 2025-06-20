@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mvp_game/core/routing/router.dart';
 import 'package:mvp_game/core/ui/font_styles.dart';
 import 'package:mvp_game/feature/type/presentation/controller/game_flow_view_model.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
     MultiProvider(
       providers: [
