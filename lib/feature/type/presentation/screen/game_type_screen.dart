@@ -31,7 +31,7 @@ class GameTypeScreen extends StatelessWidget {
             right: 0,
             left: 0,
             child: Center(
-              child: Text('게임종류를 선택해 주세요', style: FontStyles.mediumTextRegular),
+              child: Text('게임을 선택해 주세요', style: FontStyles.mediumTextRegular),
             ),
           ),
           Positioned(
