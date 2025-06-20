@@ -4,8 +4,14 @@ import '../ui/font_styles.dart';
 
 class BaseSelectBox extends StatelessWidget {
   final String title;
+  final String? subtitle;
   final VoidCallback onTap;
-  const BaseSelectBox({super.key, required this.title, required this.onTap});
+  const BaseSelectBox({
+    super.key,
+    required this.title,
+    this.subtitle,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,15 @@ class BaseSelectBox extends StatelessWidget {
           border: Border.all(color: Colors.black, width: 0.5),
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Text(title, style: FontStyles.headerTextRegular),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(title, style: FontStyles.headerTextRegular),
+            const SizedBox(height: 5),
+            if (subtitle != null)
+              Text(subtitle!, style: FontStyles.smallTextRegular),
+          ],
+        ),
       ),
     );
   }
