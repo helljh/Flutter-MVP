@@ -19,6 +19,7 @@ dependencies:
   provider: ^6.1.1
   get_it: ^7.6.4
   google_mobile_ads: ^6.0.0
+  flutter_dotenv: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -35,6 +36,7 @@ flutter:
 
   assets:
     - assets/images/
+    - .env
 
   fonts:
     - family: Binggrae

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class BannerAdWidget extends StatefulWidget {
@@ -15,7 +16,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
   void initState() {
     super.initState();
     _bannerAd = BannerAd(
-      adUnitId: 'ca-app-pub-1242680344356986/4662728723', // 본인 광고 단위 ID
+      adUnitId: dotenv.env['mvp_banner_id']!, // 본인 광고 단위 ID
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
