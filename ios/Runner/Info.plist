@@ -38,5 +38,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>이 앱은 맞춤형 광고를 제공하기 위해 추적 권한이 필요합니다.</string>
 </dict>
 </plist>
