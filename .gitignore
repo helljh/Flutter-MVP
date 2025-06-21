@@ -46,7 +46,9 @@ ios/.generated/
 **/*.xcworkspace
 **/*.xcodeproj/project.xcworkspace/
 **/*.xscheme
-**/*.xcconfig
+
+ios/Flutter/Debug.xcconfig
+ios/Flutter/Release.xcconfig
 
 # CocoaPods
 Podfile.lock
