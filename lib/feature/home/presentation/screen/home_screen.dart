@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mvp_game/core/routing/route_path.dart';
 
 import 'package:mvp_game/feature/home/presentation/widget/animated_finger.dart';
 import 'package:mvp_game/core/widget/basic_button.dart';
@@ -18,6 +20,14 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Stack(
             children: [
+              Positioned(
+                top: 0,
+                right: 0,
+                child: IconButton(
+                  onPressed: () => context.push(RoutePath.openSourceLicense),
+                  icon: const Icon(Icons.info),
+                ),
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,

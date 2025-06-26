@@ -7,4 +7,6 @@ abstract class RoutePath {
   static const countDown = '/CountDown';
   static const gameSuccess = '/GameSuccess';
   static const gameFail = '/GameFail';
+
+  static const openSourceLicense = '/openSourceLicense';
 }

@@ -5,6 +5,7 @@ import 'package:mvp_game/feature/game/presentation/controller/game_view_model.da
 import 'package:mvp_game/feature/game/presentation/screen/game_screen_root.dart';
 import 'package:mvp_game/feature/game/presentation/widget/count_down_screen.dart';
 import 'package:mvp_game/feature/level/presentation/screen/game_level_screen_root.dart';
+import 'package:mvp_game/feature/setting/open_source_license_screen.dart';
 import 'package:mvp_game/feature/splash/splash_screen.dart';
 import 'package:mvp_game/feature/success/game_success_screen.dart';
 import 'package:mvp_game/feature/presentation/widget/game_fail_screen.dart';
@@ -87,6 +88,13 @@ final router = GoRouter(
           onTapHome: () => context.go(RoutePath.home),
           onTapRestart: () => context.go(RoutePath.countDown),
         );
+      },
+    ),
+    GoRoute(
+      // 오픈소스 라이선스
+      path: RoutePath.openSourceLicense,
+      builder: (context, state) {
+        return const OpenSourceLicenseScreen();
       },
     ),
   ],
