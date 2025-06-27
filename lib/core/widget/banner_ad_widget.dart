@@ -18,7 +18,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
     _bannerAd = BannerAd(
       adUnitId: dotenv.env['mvp_banner_id']!, // 본인 광고 단위 ID
       size: AdSize.banner,
-      request: const AdRequest(),
+      request: const AdRequest(nonPersonalizedAds: true),
       listener: BannerAdListener(
         onAdLoaded: (ad) => setState(() {}),
         onAdFailedToLoad: (ad, error) {

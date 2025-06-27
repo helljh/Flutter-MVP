@@ -10,7 +10,16 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initTracking();
+
+  // 1. 앱 전체에 비개인화 옵션 적용 (앱 시작시 1회)
+  await MobileAds.instance.updateRequestConfiguration(
+    RequestConfiguration(
+      tagForChildDirectedTreatment: TagForChildDirectedTreatment.unspecified,
+      tagForUnderAgeOfConsent: TagForUnderAgeOfConsent.unspecified,
+      // 추가 옵션 필요시 여기에
+    ),
+  );
+
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   await dotenv.load(fileName: ".env");
