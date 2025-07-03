@@ -23,10 +23,10 @@
 ## 🛠️ 기술 스택
 
 - **Flutter**
+- **Dart**
 - **Provider** (상태관리)
 - **Freezed** (불변 데이터 모델)
 - **GoRouter** (페이지 이동)
-- **Dart**
 
 ---
 
